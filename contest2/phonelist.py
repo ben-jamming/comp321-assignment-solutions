@@ -14,19 +14,34 @@ class SuffixTree:
     def insert(self,s):
         # Check if s is prefix of any other string before inserting
         curr = self.root
-        for c in s:
-            if c not in curr.children:
+        for i,c in enumerate(s):
+            if c in curr.children:
+                curr = curr.children[c]
+
+                if curr.is_end:
+                    return True
+            
+            else:
                 curr.children[c] = SuffixTreeNode()
-            curr = curr.children[c]
-            if curr.is_end:
+                curr = curr.children[c]
+            
+            if i == len(s) - 1:
+                curr.is_end = True
+
+                if curr.children:
+                    return True
+                
+            elif curr.is_end:
                 return True
             
-        curr.children[end_token] = SuffixTreeNode()
-        curr.is_end = True
-        return False
-        
+            return False
 
-    
+# def tests():
+#     """
+#     1 =< n =< 10,000 # number of phone #'s
+#     1 =< t =< 40 # number of test cases
+#     0 =< d =< 9, range for a phone #'s digits
+#     """
 
 
 
